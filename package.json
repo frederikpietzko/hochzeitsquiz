@@ -9,6 +9,7 @@
     "lint": "next lint",
     "migrate:dev": "dotenv -e .env.development -- prisma migrate dev",
     "pushdb:prod": "dotenv -e .env.production -- prisma db push",
+    "prisma:studio": "dotenv -e .env.production -- prisma studio",
     "generate:client": "prisma generate"
   },
   "dependencies": {

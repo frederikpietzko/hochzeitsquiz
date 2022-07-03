@@ -12,18 +12,21 @@ const Home: NextPage = () => {
     refetchOnMount: false,
   });
   const { data: correctQuestions } = trpc.useQuery(['correctQuestions']);
-  const { mutate: answerQuestion } = trpc.useMutation('answerQuestion', {
+  const { mutateAsync: answerQuestion } = trpc.useMutation('answerQuestion', {
     onSuccess() {
       utils.invalidateQueries(['correctQuestions']);
     },
   });
-  const { mutate: resetQuetions } = trpc.useMutation('resetQuestions', {
+  const { mutateAsync: resetQuestions } = trpc.useMutation('resetQuestions', {
     onSuccess() {
       utils.invalidateQueries(['nextQuestion']);
+      utils.invalidateQueries(['correctQuestions']);
+      setSelected(undefined);
+      setVisible('hide');
     },
   });
   const [visible, setVisible] = React.useState<'show' | 'hide' | 'answer'>(
-    'show'
+    'hide'
   );
   const [selected, setSelected] = React.useState<number>();
   const handleClick = (answerId: number) => {
@@ -33,8 +36,9 @@ const Home: NextPage = () => {
       if (visible === 'answer') {
         return utils.invalidateQueries(['nextQuestion']);
       }
-      answerQuestion({ answerId, questionId: question!.id });
-      setVisible('answer');
+      answerQuestion({ answerId, questionId: question!.id }).then(() =>
+        setVisible('answer')
+      );
     }
   };
 
@@ -78,7 +82,7 @@ const Home: NextPage = () => {
         </div>
         {!question && (
           <button
-            onClick={() => resetQuetions()}
+            onClick={() => resetQuestions()}
             className="text-xl rounded bg-rose-700 px-2 py-1 text-white"
           >
             Spiel zurücksetzen
