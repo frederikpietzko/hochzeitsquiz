@@ -9,6 +9,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 export default withTRPC<AppRouter>({
   config({ ctx }) {
+    if (typeof window !== 'undefined') {
+      return {
+        url: '/api/trpc',
+      };
+    }
     const url = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}/api/trpc`
       : 'http://localhost:3000/api/trpc';
