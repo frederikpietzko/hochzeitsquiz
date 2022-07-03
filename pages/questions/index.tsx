@@ -4,6 +4,7 @@ import { QuestionItem } from '../../components/QuestionItem';
 import { trpc } from '../../utils/trpc';
 import { FaSearch } from 'react-icons/fa';
 import React from 'react';
+import { Navigation } from '../../components/Navigation';
 
 const QuestionList: NextPage = () => {
   const { data: questions } = trpc.useQuery(['allQuestions']);
@@ -18,6 +19,7 @@ const QuestionList: NextPage = () => {
       <Head>
         <title>Hochzeitsquiz | Alle Fragen</title>
       </Head>
+      <Navigation />
       <h1 className="text-3xl mb-3">Alle Fragen</h1>
       <div className="relative">
         <input

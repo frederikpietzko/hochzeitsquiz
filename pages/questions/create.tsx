@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { Navigation } from '../../components/Navigation';
 import { trpc } from '../../utils/trpc';
 
 interface QuestionData {
@@ -46,6 +47,7 @@ const CreateQuestion: NextPage = () => {
         <title>Hochzeitsquiz | Neue Frage</title>
       </Head>
       <div className="px-2 pt-2">
+        <Navigation />
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-row gap-2">
             <h1 className="text-3xl mb-5">Neue Frage erstellen</h1>
