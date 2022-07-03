@@ -11,16 +11,19 @@ datasource db {
 }
 
 model Question {
-  id       Int      @id @default(autoincrement())
-  question String
-  answers  Answer[]
+  id                Int                @id @default(autoincrement())
+  question          String
+  answers           Answer[]
+  answeredQuestions AnsweredQuestion[]
 }
 
 model Answer {
-  id         Int      @id @default(autoincrement())
-  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  questionId Int
-  answer     String
+  id                Int                @id @default(autoincrement())
+  question          Question           @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId        Int
+  answer            String
+  answeredQuestions AnsweredQuestion[]
+  correct           Boolean            @default(false)
 }
 
 model User {
@@ -32,4 +35,13 @@ model Superuser {
   id       Int    @id @default(autoincrement())
   username String
   password String
+}
+
+model AnsweredQuestion {
+  id           Int      @id @default(autoincrement())
+  question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId   Int
+  correct      Boolean
+  chosenAnswer Answer   @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  answerId     Int
 }

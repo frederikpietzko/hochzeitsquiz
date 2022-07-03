@@ -65,7 +65,7 @@ const CreateQuestion: NextPage = () => {
           </div>
           <div className="grid grid-cols-2 gap-4 items-center">
             <label htmlFor="answer1" className="text-lg">
-              Antwort 1:
+              Richtige Antwort:
             </label>
             <input
               id="answer1"
@@ -74,7 +74,7 @@ const CreateQuestion: NextPage = () => {
               {...register('answer1')}
             />
             <label htmlFor="answer2" className="text-lg">
-              Antwort 2:
+              Falsche Antwort:
             </label>
             <input
               id="answer1"
@@ -83,7 +83,7 @@ const CreateQuestion: NextPage = () => {
               {...register('answer2')}
             />
             <label htmlFor="answer3" className="text-lg">
-              Antwort 3:
+              Falsche Antwort:
             </label>
             <input
               id="answer3"
@@ -92,7 +92,7 @@ const CreateQuestion: NextPage = () => {
               {...register('answer3')}
             />
             <label htmlFor="answer4" className="text-lg">
-              Antwort 4:
+              Falsche Antwort:
             </label>
             <input
               id="answer4"

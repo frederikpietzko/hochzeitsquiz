@@ -10,9 +10,10 @@ export const questionsRouter = trpc
       const question = await prisma.question.create({
         data: { question: input.question },
       });
-      const answers = input.answers.map((answer) => ({
+      const answers = input.answers.map((answer, index) => ({
         answer,
         questionId: question.id,
+        correct: index === 0,
       }));
       await prisma.answer.createMany({ data: answers });
       return question;
@@ -64,4 +65,28 @@ export const questionsRouter = trpc
         .findFirst({ where: { id: input } })
         .answers();
     },
+  })
+  .query('nextQuestion', {
+    input: z.void(),
+    async resolve() {
+      const answeredQuestions = (
+        await prisma.answeredQuestion.findMany({ select: { id: true } })
+      ).map((q) => q.id);
+
+      const questions = await prisma.question.findMany({
+        select: { id: true, question: true, answers: true },
+        where: {
+          id: { notIn: answeredQuestions },
+        },
+      });
+
+      return questions[Math.floor(Math.random() * questions.length)];
+    },
+  })
+  .mutation('answerQuestion', {
+    input: z.object({
+      questionId: z.number(),
+      answer: z.number(),
+    }),
+    async resolve({ input }) {},
   });

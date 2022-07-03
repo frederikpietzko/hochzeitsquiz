@@ -1,12 +1,15 @@
 import type { NextPage } from 'next';
+import Head from 'next/head';
 import { trpc } from '../utils/trpc';
 
 const Home: NextPage = () => {
-  const { data } = trpc.useQuery(['hello', { text: 'Mama' }]);
   return (
-    <div>
-      <p>{data?.greeting}</p>
-    </div>
+    <>
+      <Head>
+        <title>Hochzeitsquiz</title>
+      </Head>
+      <div></div>
+    </>
   );
 };
 
