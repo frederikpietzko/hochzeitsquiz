@@ -14,10 +14,15 @@ export const QuestionItem: React.FC<QuestionItemProps> = ({ question }) => {
     },
   });
   const onDelete = () => {
-    if (confirm(`Soll die Frage:\n${question}\nwirklich gelöscht werden?`)) {
+    if (
+      confirm(
+        `Soll die Frage:\n${question.question}\nwirklich gelöscht werden?`
+      )
+    ) {
       deleteQuestion(question.id);
     }
   };
+
   return (
     <div className="rounded bg-fuchsia-500 text-white text-lg py-1 px-2 ">
       <div className="flex flex-row justify-between items-center">

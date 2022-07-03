@@ -1,4 +1,5 @@
 import * as trpc from '@trpc/server';
+import _ from 'lodash';
 import { z } from 'zod';
 import { prisma } from '../db';
 
@@ -67,11 +68,10 @@ export const questionsRouter = trpc
     },
   })
   .query('nextQuestion', {
-    input: z.void(),
     async resolve() {
       const answeredQuestions = (
-        await prisma.answeredQuestion.findMany({ select: { id: true } })
-      ).map((q) => q.id);
+        await prisma.answeredQuestion.findMany({ select: { questionId: true } })
+      ).map((q) => q.questionId);
 
       const questions = await prisma.question.findMany({
         select: { id: true, question: true, answers: true },
@@ -79,14 +79,39 @@ export const questionsRouter = trpc
           id: { notIn: answeredQuestions },
         },
       });
-
-      return questions[Math.floor(Math.random() * questions.length)];
+      const q = questions[Math.floor(Math.random() * questions.length)];
+      if (!q) {
+        return null;
+      }
+      q.answers = _.shuffle(q?.answers);
+      return q;
     },
   })
   .mutation('answerQuestion', {
     input: z.object({
       questionId: z.number(),
-      answer: z.number(),
+      answerId: z.number(),
     }),
-    async resolve({ input }) {},
+    async resolve({ input }) {
+      const answer = await prisma.answer.findFirst({
+        where: { id: input.answerId },
+      });
+      await prisma.answeredQuestion.create({
+        data: {
+          answerId: answer!.id,
+          correct: answer!.correct,
+          questionId: input.questionId,
+        },
+      });
+    },
+  })
+  .mutation('resetQuestions', {
+    async resolve() {
+      await prisma.answeredQuestion.deleteMany();
+    },
+  })
+  .query('correctQuestions', {
+    async resolve() {
+      return await prisma.answeredQuestion.count({ where: { correct: true } });
+    },
   });
