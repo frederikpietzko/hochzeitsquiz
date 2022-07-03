@@ -26,7 +26,7 @@ export const QuestionItem: React.FC<QuestionItemProps> = ({ question }) => {
       </div>
       <div>
         {question.answers?.map(({ answer }, index) => (
-          <div>{`${index + 1} ${answer}`}</div>
+          <div key={answer}>{`${index + 1} ${answer}`}</div>
         ))}
       </div>
     </div>
