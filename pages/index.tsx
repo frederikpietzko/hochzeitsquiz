@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import type { NextPage } from 'next';
+import type { GetServerSidePropsResult, NextPage, NextPageContext } from 'next';
+import { parse } from 'next-useragent';
 import Head from 'next/head';
 import React from 'react';
 import { trpc } from '../utils/trpc';
@@ -94,3 +95,18 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export function getServerSideProps(
+  context: NextPageContext
+): GetServerSidePropsResult<void> {
+  const userAgent = parse(context.req?.headers['user-agent']!);
+  if (userAgent.isMobile) {
+    return {
+      redirect: {
+        destination: '/mobile',
+        permanent: false,
+      },
+    };
+  }
+  return {} as GetServerSidePropsResult<void>;
+}
