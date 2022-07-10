@@ -15,7 +15,7 @@ interface QuestionData {
 }
 
 const questionSchema = z.object({
-  question: z.string().min(15),
+  question: z.string(),
   answer1: z.string(),
   answer2: z.string(),
   answer3: z.string(),

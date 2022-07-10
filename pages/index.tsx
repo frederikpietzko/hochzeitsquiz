@@ -11,6 +11,10 @@ const Home: NextPage = () => {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
+    onSuccess() {
+      setSelected(undefined);
+      setVisible('hide');
+    },
   });
   const { data: correctQuestions } = trpc.useQuery(['correctQuestions']);
   const { mutateAsync: answerQuestion } = trpc.useMutation('answerQuestion', {
@@ -108,5 +112,5 @@ export function getServerSideProps(
       },
     };
   }
-  return {} as GetServerSidePropsResult<void>;
+  return { props: {} } as GetServerSidePropsResult<void>;
 }
