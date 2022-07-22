@@ -55,12 +55,10 @@ const Home: NextPage = () => {
 
       <div className="w-4/6 h-screen flex flex-col justify-center items-center m-auto">
         <div
-          className="-mt-44 mb-28 rounded bg-rose-700 text-white w-full h-72 text-center flex flex-col items-center justify-center cursor-pointer"
+          className="question"
           onClick={() => setVisible(visible === 'show' ? 'hide' : 'show')}
         >
-          <h3 className="text-3xl block ">
-            Punktzahl: {correctQuestions ?? 0}
-          </h3>
+          <h3 className="text-3xl block">Punktzahl: {correctQuestions ?? 0}</h3>
 
           <h1 className="text-6xl">
             {['show', 'answer'].includes(visible)
@@ -68,16 +66,16 @@ const Home: NextPage = () => {
               : 'Was verbindet die Stehenden?'}
           </h1>
         </div>
-        <div className="h-16 grid grid-cols-2  place-items-center">
+        <div className="answer-box">
           {question?.answers.map((a) => (
             <div
               key={a.id}
-              className={`w-96 text-center text-3xl rounded  ${
+              className={`answer ${
                 visible === 'answer' && a.correct
-                  ? 'bg-lime-600'
+                  ? 'from-lime-300 to-green-500'
                   : selected !== a.id
-                  ? 'bg-rose-700'
-                  : 'bg-yellow-700'
+                  ? 'bg-blue-400 '
+                  : 'from-blue-600 to-blue-400'
               } text-white mx-16 my-6 py-8 cursor-pointer`}
               onClick={() => handleClick(a.id)}
             >

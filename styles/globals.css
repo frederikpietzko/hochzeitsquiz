@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-slate-700 text-gray-300 font-mono;
+}
+.question {
+  @apply -mt-44 mb-28 rounded-full bg-gradient-to-br
+   from-blue-600 to-green-400 w-full h-72 text-center flex flex-col items-center justify-center cursor-pointer;
+}
+.answer-box {
+  @apply h-16 grid grid-cols-2  place-items-center;
+}
+.answer {
+  @apply w-96 text-center text-3xl rounded bg-gradient-to-br;
+}
